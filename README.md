@@ -1,6 +1,6 @@
 # ILS
 
-This is the package version for ANU Honours project -- Fast Parameter-free Clusteringusing Enhanced Iterative Label Spreading.
+This is the package version for ANU Honours project -- Fast Parameter-free Clustering using Enhanced Iterative Label Spreading.
 
 TODO:
 
