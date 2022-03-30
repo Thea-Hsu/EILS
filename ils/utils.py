@@ -1,8 +1,11 @@
 from matplotlib import pyplot as plt
 import numpy as np
+import pandas as pd
 from itertools import cycle, islice
 from scipy.ndimage.filters import gaussian_filter1d
 from scipy.signal import find_peaks_cwt
+from sklearn import cluster, datasets, mixture
+from sklearn.preprocessing import StandardScaler
 
 '''
 Common functions for the whole package
@@ -80,4 +83,31 @@ def min_toCentroid(df, centroid = None , features = None ):
             [(row[j] - centroid[i])**2  for i, j in enumerate(features)]), axis = 1 )
     return dist.idxmin()
 
+def synthetic_data(N=1500):
+    N = 1500
+    noisy_circles = datasets.make_circles(n_samples=N, factor=.5, noise=.05)
+    noisy_moons = datasets.make_moons(n_samples=N, noise=.05)
+    blobs = datasets.make_blobs(n_samples=N, random_state=8)
+    no_structure = np.random.rand(N, 2), None
+    # Anisotropicly distributed data
+    RS = 170 
+    X, y = datasets.make_blobs(n_samples=N, random_state= RS)
+    transformation = [[0.6, -0.6], [-0.4, 0.8]]
+    X_aniso = np.dot(X, transformation)
+    aniso = (X_aniso, y)
+    # blobs with varied variances
+    varied = datasets.make_blobs(n_samples=N,
+                                 cluster_std=[1.0, 2.5, 0.5],
+                                 random_state=RS)
 
+    # data including x,y points and true labels
+    ds = [ noisy_circles, noisy_moons, varied, aniso, blobs, no_structure ] 
+
+    # scale and store points only in a list of dataFrames 
+    features = ['x','y']
+    X = []
+    for i,j in enumerate(ds) :
+        X.append(pd.DataFrame(StandardScaler().fit_transform(j[0])
+                    ,columns = features) )
+        X[i].index.name = 'ID'
+    return X

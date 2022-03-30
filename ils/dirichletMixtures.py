@@ -20,7 +20,7 @@ def plot_mixtures(n_compoments=30, dataset=None):
     ax.bar(plot_w - 0.5, np.sort(DPGMM.weights_)[::-1], width=1., lw=0)
     ax.set_xlim(0.5, 30)
     ax.set_xlabel('Component')
-    ax.set_ylabel('Posterior expected mixture weight');
+    ax.set_ylabel('Posterior expected mixture weight')
     return countComponent(DPGMM.weights_, 0.95)
 
 

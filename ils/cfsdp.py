@@ -10,6 +10,7 @@ Reference:
 from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
+import math
 from .basic_ils import ILS
 
 def calculate_dc(distance_matrix, percentage=1.2):
@@ -30,6 +31,15 @@ def calculate_dc(distance_matrix, percentage=1.2):
     temp.sort()
     dc = temp[int(len(temp) * percentage / 100)]
     return dc
+
+def entropy(density):
+    Z = np.sum(density)
+    temp = []
+    for i in density:
+        faiz = i/Z
+        temp.append(faiz*np.log(faiz))
+    H  = - np.sum(temp)
+    return H
 
 def continuous_density(distance_matrix, dc):
     '''
@@ -60,6 +70,21 @@ def discrete_density(distance_matrix, dc):
         # the length of the points larger than the cut-off distance
         density[index] = len(dis[dis < dc])
     return density
+
+def choose_dc(distance_matrix):
+    field = []
+    dc_value_list = []
+    for dc in np.linspace(0, 1, 100):
+        dc_value_list.append(dc)
+        density = continuous_density(distance_matrix, dc)
+        H = entropy(density)
+        field.append(H)
+    value = [value for value in field if not math.isnan(value)]
+    dc = np.sqrt(3) * dc_value_list[np.argmin(value)+1]
+    return dc, dc_value_list, field
+
+def plot_dc_curve(dc_value_list, field):
+    plt.plot(dc_value_list, field)
 
 def delta_function(distance_matrix, density):
     '''
