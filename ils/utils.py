@@ -14,12 +14,16 @@ Common functions for the whole package
 #         ['#837E7C','#377eb8',
 #          '#4daf4a','#f781bf', '#a65628', '#ff7f00',
 #          '#984ea3','#999999', '#e41a1c', '#dede00']
-#          ),int(10))))
+#          ),int(10))))#7FFFD4
+# '#FAEBD7','#00FFFF','#c21535','#F0FFFF','#F5F5DC',
+#                                     '#FFE4C4','#FFEBCD','#0000FF','#8A2BE2','#A52A2A',
+#                                     '#DEB887','#5F9EA0','#7FFF00','#D2691E','#FF7F50',
+#                                      '#6495ED','#FFF8DC','#DC143C','#00FFFF','#00008B
 
-colors = np.array(list(islice(cycle(['#FAEBD7','#00FFFF','#7FFFD4','#F0FFFF','#F5F5DC',
-                                    '#FFE4C4','#FFEBCD','#0000FF','#8A2BE2','#A52A2A',
+colors = np.array(list(islice(cycle(['#837E7C','#377eb8','#4daf4a','#f781bf', '#a65628', 
+                                    '#ff7f00','#984ea3','#999999', '#e41a1c', '#dede00',
                                     '#DEB887','#5F9EA0','#7FFF00','#D2691E','#FF7F50',
-                                     '#6495ED','#FFF8DC','#DC143C','#00FFFF','#00008B']), int(20))))
+                                    '#6495ED','#FFF8DC','#DC143C','#00FFFF','#00008B']), int(20))))
 
 def plot_ILSdistances(df, minR, centroid, label):
     fig = plt.figure(figsize=(6,3))
@@ -66,7 +70,7 @@ def findMin(vec, window):
     return minima, maxima
 
 # choose the point nearest to the mean centroid
-def min_toCentroid(df, centroid = None , features = None ):
+def min_toCentroid(df, centroid = None , features = None):
     '''
     INPUT:
         df = pandas dataFrame:
@@ -83,11 +87,12 @@ def min_toCentroid(df, centroid = None , features = None ):
             [(row[j] - centroid[i])**2  for i, j in enumerate(features)]), axis = 1 )
     return dist.idxmin()
 
+
 def synthetic_data(N=1500):
     N = 1500
-    noisy_circles = datasets.make_circles(n_samples=N, factor=.5, noise=.05)
-    noisy_moons = datasets.make_moons(n_samples=N, noise=.05)
-    blobs = datasets.make_blobs(n_samples=N, random_state=8)
+    noisy_circles = datasets.make_circles(n_samples=N, factor=.8, noise=.05, random_state=42)
+    noisy_moons = datasets.make_moons(n_samples=N, noise=.05, random_state=42)
+    blobs = datasets.make_blobs(n_samples=N, random_state=42)
     no_structure = np.random.rand(N, 2), None
     # Anisotropicly distributed data
     RS = 170 
@@ -110,4 +115,5 @@ def synthetic_data(N=1500):
         X.append(pd.DataFrame(StandardScaler().fit_transform(j[0])
                     ,columns = features) )
         X[i].index.name = 'ID'
+
     return X
