@@ -217,3 +217,18 @@ def top_k_idx(gamma, k):
     idx = idx[::-1]
     index = idx[:k]
     return index
+
+def plot_centroid(X_embedded, index):
+    '''
+    Plot the centroid chosen by the gamma graph
+    INPUTS:
+        X_embedded: 2D dataframe, column name 'x' and 'y'
+        index: the index list of the top k gamma values
+    '''
+    plt.scatter(X_embedded['x'], X_embedded['y'],  marker='o', c='aquamarine', s=6)
+    for i in index:
+        plt.plot(X_embedded.loc[i][0], X_embedded.loc[i][1], marker='x', c='r')
+    plt.xlabel('axis_x')
+    plt.ylabel('axis_y')
+    plt.title('Original_dataset')
+    plt.show()
