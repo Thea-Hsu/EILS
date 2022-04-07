@@ -19,13 +19,25 @@ Common functions for the whole package
 #                                     '#FFE4C4','#FFEBCD','#0000FF','#8A2BE2','#A52A2A',
 #                                     '#DEB887','#5F9EA0','#7FFF00','#D2691E','#FF7F50',
 #                                      '#6495ED','#FFF8DC','#DC143C','#00FFFF','#00008B
-
+"""Define some colors list for ploting
+"""
 colors = np.array(list(islice(cycle(['#837E7C','#377eb8','#4daf4a','#f781bf', '#a65628', 
                                     '#ff7f00','#984ea3','#999999', '#e41a1c', '#dede00',
                                     '#DEB887','#5F9EA0','#7FFF00','#D2691E','#FF7F50',
                                     '#6495ED','#FFF8DC','#DC143C','#00FFFF','#00008B']), int(20))))
 
 def plot_ILSdistances(df, minR, centroid, label):
+    """Ordered ILS labelling distances (Rmin), and cluster plots
+    A side by side of the ordered Rmin plot and the points in the cluster with the centroid identified (in 2D). 
+    For a 2D feature space this allows a comparison of the defined cluster and the connection to details of the Rmin plot 
+    (Only the latter might be available in a higher dimensional feature space).
+
+    Args:
+        df (dataframe): dataset
+        minR (Series): ordered Rmin 
+        centroid (2d point): the mean value of the features
+        label (int): ILS label
+    """
     fig = plt.figure(figsize=(6,3))
     fig.subplots_adjust(left=.07, right=.98, bottom=.001,
                         top=.96, wspace=.05,hspace=.01)
@@ -42,8 +54,16 @@ def plot_ILSdistances(df, minR, centroid, label):
     ax.scatter(centroid[0], centroid[1], s=3,
                color=colors[label],marker = 'x', linewidth =20)
 
-# plot local minima red, local maxima green, curve yellow, window size is the parameter
 def findMin(vec, window):
+    """plot local minima red, local maxima green, curve yellow, window size is the parameter
+
+    Args:
+        vec (Series): Rmin
+        window (scalar): standard deviation for Gaussian kernel
+
+    Returns:
+        minima, maxima: minima list and maxima list
+    """
     filtered = gaussian_filter1d(vec, window)
     index = np.arange(len(filtered))
 
@@ -71,14 +91,16 @@ def findMin(vec, window):
 
 # choose the point nearest to the mean centroid
 def min_toCentroid(df, centroid = None , features = None):
-    '''
-    INPUT:
-        df = pandas dataFrame:
-                columns are dimensions
-        centroid = list or tuple with consistant dimension
-        features = string or list of strings:
-                select only these columns of df
-    '''
+    """The closest point that exists in a data set to a general point 
+
+    Args:
+        df (dataframe): columns are dimensions
+        centroid (list or tuple, optional): list or tuple with consistant dimension. Defaults to None.
+        features (string or list of strings, optional): select only these columns of df. Defaults to None.
+
+    Returns:
+        idmin (Series): The closest point id in the data set
+    """
     if type(features) == type(None) :
         features = df.columns
     if type(centroid) == type(None) :
@@ -89,6 +111,14 @@ def min_toCentroid(df, centroid = None , features = None):
 
 
 def synthetic_data(N=1500):
+    """2D dummy examples
+
+    Args:
+        N (int, optional): number of instances. Defaults to 1500.
+
+    Returns:
+        X: A list of synthetic data, use index to get each type of dataset
+    """
     N = 1500
     noisy_circles = datasets.make_circles(n_samples=N, factor=.8, noise=.05, random_state=42)
     noisy_moons = datasets.make_moons(n_samples=N, noise=.05, random_state=42)

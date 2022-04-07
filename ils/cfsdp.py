@@ -5,6 +5,7 @@ Reference:
    https://science.sciencemag.org/content/344/6191/1492
 2. Clustering  by Fast  Search  and  Find of  Density Peaks  with  Data  Field
    http://cje.ejournal.org.cn/en/article/doi/10.1049/cje.2016.05.001
+3. https://github.com/yl-jiang/Clustering-Python/blob/master/classification/CFSDP.py
 '''
 
 from matplotlib import pyplot as plt
@@ -33,6 +34,13 @@ def calculate_dc(distance_matrix, percentage=1.2):
     return dc
 
 def entropy(density):
+    '''
+    Calculate the data field entropy
+    INPUTS:
+        density: density of N points
+    OUTPUTS:
+        H: the entropy of the current data point
+    '''
     Z = np.sum(density)
     temp = []
     for i in density:
@@ -52,7 +60,7 @@ def continuous_density(distance_matrix, dc):
     '''
     density = np.zeros(shape=len(distance_matrix))
     for index, dis in enumerate(distance_matrix):
-        # guassian function
+        # guassian kernel 
         density[index] = np.sum(np.exp(-(dis / dc) ** 2))
     return density
 
@@ -72,6 +80,15 @@ def discrete_density(distance_matrix, dc):
     return density
 
 def choose_dc(distance_matrix):
+    '''
+    Non-paramatic choosing cut-off distance
+    INPUTS:
+        distance_matrix: N * N matrix (calculated by pairwise_distance)
+    OUTPUTS:
+        dc: cut-off distance
+        dc_value_list: corresponding dc values
+        field: simulate data field
+    '''
     field = []
     dc_value_list = []
     for dc in np.linspace(0, 1, 100):
@@ -80,7 +97,7 @@ def choose_dc(distance_matrix):
         H = entropy(density)
         field.append(H)
     value = [value for value in field if not math.isnan(value)]
-    dc = np.sqrt(3) * dc_value_list[np.argmin(value)+1]
+    dc = 3/np.sqrt(2) * dc_value_list[np.argmin(value)+1]
     return dc, dc_value_list, field
 
 def plot_dc_curve(dc_value_list, field):
@@ -149,37 +166,47 @@ def density_delta(density, delta_matrix, df):
 
 def choosing_centernumber(density, delta_matrix):
     '''
-    Calculate the product of the density value and the minimum distance value at each point and draw the decision graph
+    Calculate the product of the density value and the minimum distance value at each point 
     INPUTS:
         density: density of N points
         delta_matrix: computing the minimum distance between the point and any other with high density
     OUTPUTS:
         gamma: the product of the density value and the minimum distance value at each point
-        sorted gamma graph
     '''
     # normalizate the data
     normal_density = (density - np.min(density)) / (np.max(density) - np.min(density))
     normal_delta = (delta_matrix - np.min(delta_matrix)) / (np.max(delta_matrix) - np.min(delta_matrix))
     gamma = normal_density * normal_delta
+   
+    return gamma
+
+def plot_center(delta_matrix, density, gamma):
+    '''
+    Draw the gamma graph
+    INPUTS:
+        density: density of N points
+        delta_matrix: computing the minimum distance between the point and any other with high density
+        gamma: the product of the density value and the minimum distance value at each point
+        sorted gamma graph
+    '''
+    gamma = choosing_centernumber(density, delta_matrix)
     plt.figure(num=2, figsize=(8, 6))
     plt.scatter(x=range(len(delta_matrix)), y=-np.sort(-gamma), c='k', marker='o', s=-np.sort(-gamma) * 100)
     plt.xlabel('data_num')
     plt.ylabel('gamma')
     plt.title('Gamma graph')
     plt.show()
-    return gamma
 
-def applyILS(X, X_embedded, index, colors):
+
+def applyILS(X, index):
     '''
     Combined the ILS with the centorid finding, and plot the 2D results
     INPUTS:
         X: the original dataset
-        X_embedded: 2D dataframe, column name 'x' and 'y'
         index: the index list of the top k gamma values
-        colors: color list defined before
     OUTPUTS:
         newL: new labels
-        2D cluster plot
+        count: cluster number +1
     '''
     df1 = X.copy()
     df1['label'] = 0
@@ -187,21 +214,31 @@ def applyILS(X, X_embedded, index, colors):
     for i in index:
         df1.loc[i, 'label'] = count
         count += 1
-    print(count)
     print("The number of clusters: " + str(count - 1))
     df1.index.name = 'ID'
     features = [ i for i in df1.columns if i != 'label' ]
     newL, orderedL = ILS(df1[features + ['label']],'label')
+    return newL, count
+
+def draw_ILS(count, X_embedded, newL, colors):
+    '''
+    plot the 2D results
+    INPUTS:
+        count: cluster number+1
+        X_embedded: 2D dataframe, column name 'x' and 'y'
+        newL: new labels
+        colors: color list defined before
+    '''
     L = pd.DataFrame(newL)
     L.index = L.index.map(int)
-    L.LS = L.LS.astype("int")
+    L.LS = L.LS.astype("int") 
     X_embedded.index.name = 'ID'
     df2 = pd.merge(X_embedded, L, on = 'ID')
     plt.figure(figsize=(10, 8))
     for i in range(1, count):
         plt.scatter(df2[df2['LS'] == i]['x'], df2[df2['LS'] == i]['y'], c=colors[i], alpha=0.5)
     plt.show()
-    return newL
+
 
 def top_k_idx(gamma, k):
     '''
