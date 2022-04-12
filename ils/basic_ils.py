@@ -74,8 +74,8 @@ def ILS(df, labelColumn, outColumn='LS', iterative=True):
         # Switch label from 0 to new label
         unlabelled.loc[idUnL, labelColumn] = labelled.loc[idL, labelColumn]
         # move newly labelled point to labelled dataframe
-        # labelled = labelled.append(unlabelled.loc[idUnL])
-        labelled.loc[list(unlabelled.loc[idUnL])[0]] = list(unlabelled.loc[idUnL])
+        labelled = labelled.append(unlabelled.loc[idUnL])
+        # labelled.loc[list(unlabelled.loc[idUnL])[0]] = list(unlabelled.loc[idUnL])
         # drop from unlabelled data frame
         unlabelled.drop(idUnL, inplace=True)
 
