@@ -120,7 +120,7 @@ def synthetic_data(N=1500):
         X: A list of synthetic data, use index to get each type of dataset
     """
     N = 1500
-    noisy_circles = datasets.make_circles(n_samples=N, factor=.8, noise=.05, random_state=42)
+    noisy_circles = datasets.make_circles(n_samples=N, factor=.5, noise=.05, random_state=1020)
     noisy_moons = datasets.make_moons(n_samples=N, noise=.05, random_state=42)
     blobs = datasets.make_blobs(n_samples=N, random_state=42)
     no_structure = np.random.rand(N, 2), None

@@ -7,6 +7,15 @@ import warnings
 warnings.filterwarnings("ignore")
 
 def plot_mixtures(n_compoments=30, dataset=None):
+    """_summary_
+
+    Args:
+        n_compoments (int, optional): _description_. Defaults to 30.
+        dataset (dataframe): dataset. Defaults to None.
+
+    Returns:
+       number of weighted component: 95% component
+    """
     DPGMM = mixture.BayesianGaussianMixture(n_components=n_compoments,
                                             max_iter=100000000,
                                             n_init=10,

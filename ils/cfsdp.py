@@ -12,6 +12,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
 import math
+import time
 from .basic_ils import ILS
 
 def calculate_dc(distance_matrix, percentage=1.2):
@@ -114,27 +115,27 @@ def delta_function(distance_matrix, density):
         closest_point: the closest point with higher distance than the current point
     '''
     delta_matrix = np.zeros(shape=len(distance_matrix))
-    closest_point = np.zeros(shape=len(distance_matrix), dtype=np.int32)
+    # closest_point = np.zeros(shape=len(distance_matrix), dtype=np.int32)
     for index, dis in enumerate(distance_matrix):
         # The set of points whose density is greater than the current point
         density_larger = np.squeeze(np.argwhere(density > density[index]))
         if density_larger.size != 0:
             distance_between_larger = distance_matrix[index][density_larger]
             delta_matrix[index] = np.min(distance_between_larger)
-            min_distance_index = np.squeeze(np.argwhere(distance_between_larger == delta_matrix[index]))
+            # min_distance_index = np.squeeze(np.argwhere(distance_between_larger == delta_matrix[index]))
             # If there are multiple points whose density is greater than oneself and which are closest to oneself,
             # select the first point as the immediate superior
-            if min_distance_index.size >= 2:
-                min_distance_index = np.random.choice(a=min_distance_index)
-            if distance_between_larger.size > 1:
-                closest_point[index] = density_larger[min_distance_index]
-            else:
-                closest_point[index] = density_larger
+            # if min_distance_index.size >= 2:
+            #     min_distance_index = np.random.choice(a=min_distance_index)
+            # if distance_between_larger.size > 1:
+            #     closest_point[index] = density_larger[min_distance_index]
+            # else:
+            #     closest_point[index] = density_larger
         # largest density point
         else:
             delta_matrix[index] = np.max(distance_matrix)
-            closest_point[index] = index
-    return delta_matrix, closest_point
+            # closest_point[index] = index
+    return delta_matrix
 
 def density_delta(density, delta_matrix, df):
     '''
@@ -217,7 +218,12 @@ def applyILS(X, index):
     print("The number of clusters: " + str(count - 1))
     df1.index.name = 'ID'
     features = [ i for i in df1.columns if i != 'label' ]
+    ti = time.time()
     newL, orderedL = ILS(df1[features + ['label']],'label')
+    tf = time.time()
+    print(
+        'Iterative label spreading took {:.1f}s'.format( 
+        tf-ti))
     return newL, count
 
 def draw_ILS(count, X_embedded, newL, colors):
@@ -249,7 +255,7 @@ def top_k_idx(gamma, k):
     OUTPUT:
         index: the index list of the top k gamma values
     '''
-    print(sorted(gamma,reverse=True)[:k])
+    # print(sorted(gamma,reverse=True)[:k])
     idx = gamma.argsort()
     idx = idx[::-1]
     index = idx[:k]
