@@ -245,6 +245,28 @@ def draw_ILS(count, X_embedded, newL, colors):
         plt.scatter(df2[df2['LS'] == i]['x'], df2[df2['LS'] == i]['y'], c=colors[i], alpha=0.5)
     plt.show()
 
+def draw_ILS_with_shape(count, X_embedded, newL, colors, original_df):
+    '''
+    plot the 2D results
+    INPUTS:
+        count: cluster number+1
+        X_embedded: 2D dataframe, column name 'x' and 'y'
+        newL: new labels
+        colors: color list defined before
+        original_df: the original dataset with 'shape' column feature
+    '''
+    L = pd.DataFrame(newL)
+    L.index = L.index.map(int)
+    L.LS = L.LS.astype("int") 
+    X_embedded.index.name = 'ID'
+    df2 = pd.merge(X_embedded, L, on = 'ID')
+    plt.figure(figsize=(10, 8))
+    for i in range(1, count):
+        plt.scatter(df2[df2['LS'] == i]['x'], df2[df2['LS'] == i]['y'], c=colors[i], alpha=0.5)
+    ax = plt.gca()
+    for i, txt in enumerate(original_df['shape']):
+        ax.annotate(txt, (X_embedded['x'][i]+0.03, X_embedded['y'][i]+0.03))
+    plt.show()
 
 def top_k_idx(gamma, k):
     '''

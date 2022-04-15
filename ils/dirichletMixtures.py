@@ -7,10 +7,10 @@ import warnings
 warnings.filterwarnings("ignore")
 
 def plot_mixtures(n_compoments=30, dataset=None):
-    """_summary_
+    """Using the sklearn BayesianGaussianMixture to give a expected mixture weight.
 
     Args:
-        n_compoments (int, optional): _description_. Defaults to 30.
+        n_compoments (int, optional): The number of mixture components. Defaults to 30.
         dataset (dataframe): dataset. Defaults to None.
 
     Returns:
@@ -21,8 +21,7 @@ def plot_mixtures(n_compoments=30, dataset=None):
                                             n_init=10,
                                             tol=1e-5,
                                             init_params='kmeans',
-                                            weight_concentration_prior_type='dirichlet_process',
-                                            weight_concentration_prior=1 / 10)
+                                            weight_concentration_prior_type='dirichlet_process')
     DPGMM.fit(dataset)
     fig, ax = plt.subplots(figsize=(8, 6))
     plot_w = np.arange(30) + 1
@@ -34,6 +33,15 @@ def plot_mixtures(n_compoments=30, dataset=None):
 
 
 def countComponent(weightList, ratio = 0.95):
+    """Count the number of components
+
+    Args:
+        weightList (list): the weights of each components
+        ratio (float, optional): cut-off ratio of weighted components. Defaults to 0.95.
+
+    Returns:
+        int: the number of weighted components
+    """
     weightList = np.sort(weightList)[::-1]
     countWeight = 0
     for i in range(len(weightList)):
@@ -41,4 +49,5 @@ def countComponent(weightList, ratio = 0.95):
             countWeight += weightList[i]
         else:
             break
-    return i+1
+    print('Number of components: ' , i+1)
+    
