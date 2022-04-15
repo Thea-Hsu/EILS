@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "Fast ILS"
+name = "Enhanced ILS"
 version = "0.1.0"
 description = "Fast Parameter-free Clustering using Enhanced Iterative Label Spreading"
 authors = ["Xinyue XU <xinyuexu1999@gmail.com>"]
