@@ -1,6 +1,7 @@
 # EILS
 
 This is the package version for ANU Honours project -- Fast Parameter-free Clustering using Enhanced Iterative Label Spreading.
+
 [![DOI](https://zenodo.org/badge/462578309.svg)](https://zenodo.org/badge/latestdoi/462578309)
 
 
@@ -56,7 +57,7 @@ For details, please see the demo.ipynb
 
 ### Authors
 
-- [Xinyue (Thea) Xu](https://github.com/Thea-Hsu)
+- [Xinyue (Thea) Xu](https://github.com/Thea-Hsu) (xinyuexu1999@gmail.com)
 - [Dr. Amanda Parker](https://github.com/ajp1717): supervisor, designed the original version of Iterative Label Spreading.
 
 ### Other Contributors
