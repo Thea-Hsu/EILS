@@ -1,6 +1,8 @@
 # EILS
 
 This is the package version for ANU Honours project -- Fast Parameter-free Clustering using Enhanced Iterative Label Spreading.
+[![DOI](https://zenodo.org/badge/462578309.svg)](https://zenodo.org/badge/latestdoi/462578309)
+
 
 
 
