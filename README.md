@@ -11,9 +11,31 @@ This is the package version for ANU Honours project -- Fast Parameter-free Clust
 - Enhance version: this repository
 - Scikit-Learn version: https://github.com/ajp1717/Summer-Project-Advanced-and-Interpretable-Unsupervised-Learning
 
+
+
+## Install Environment
+
+```
+conda env create -f environment.yml
+conda activate ILS	
+```
+
+OR
+
+```
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+git clone https://github.com/Thea-Hsu/EILS.git
+cd EILS
+poetry init
+```
+
+
+
 ## Package Introduction
 
 This package designs an enhanced version of ILS clustering.
+
+
 
 ## Package Usage
 
@@ -22,9 +44,13 @@ For details, please see the demo.ipynb
 - [cfsdp_demo.ipynb](https://github.com/Thea-Hsu/EILS/blob/main/cfsdp_demo.ipynb)
 - [dirchlet_AND_agglomerative_demo.ipynb](https://github.com/Thea-Hsu/EILS/blob/main/dirchlet_AND_agglomerative_demo.ipynb)
 
+
+
 ## TODO
 
 + Add explainations for demo files, it is expected to be completed after the thesis.
+
+
 
 ### Authors
 

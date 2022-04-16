@@ -208,21 +208,23 @@ def split_data(label, b):
         remain.append(categories[i])
     return ac, remain
 
-def pca_vision(dataset, n_components, label):
+def pca_vision(dataset, n_components, label, text=False):
     """Using PCA to visialize the label and dataset
 
     Args:
         dataset (dataframe): dataset
         n_components (float): number of components to keep
         label (ndarray): an array indicate group membership
+        text (bool, optional): using random search or grid search. Defaults to False.
     """
     pca = skldec.PCA(n_components = n_components)    
     pca.fit(dataset)  
     result = pca.transform(dataset)  
     plt.figure() 
-    plt.scatter(result[:, 0], result[:, 1], c=label, edgecolor='b') 
-    for i in range(result[:,0].size):
-        plt.text(result[i,0], result[i,1], dataset.index[i], color='gray')    
+    plt.scatter(result[:, 0], result[:, 1], c=label, cmap=plt.get_cmap('gist_rainbow_r'), edgecolor='k') 
+    if text == True:
+        for i in range(result[:,0].size):
+            plt.text(result[i,0], result[i,1], dataset.index[i], color='gray')    
     x_label = 'PC1(%s%%)' % round((pca.explained_variance_ratio_[0]*100.0),2)   
     y_label = 'PC1(%s%%)' % round((pca.explained_variance_ratio_[1]*100.0),2)   
     plt.xlabel(x_label)    

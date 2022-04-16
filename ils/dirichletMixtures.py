@@ -6,12 +6,13 @@ sns.set()
 import warnings
 warnings.filterwarnings("ignore")
 
-def plot_mixtures(n_compoments=30, dataset=None):
+def plot_mixtures(n_compoments=30, dataset=None, ratio = 0.95):
     """Using the sklearn BayesianGaussianMixture to give a expected mixture weight.
 
     Args:
         n_compoments (int, optional): The number of mixture components. Defaults to 30.
         dataset (dataframe): dataset. Defaults to None.
+        ratio (float, optional): cut-off ratio of weighted components. Defaults to 0.95.
 
     Returns:
        number of weighted component: 95% component
@@ -29,10 +30,10 @@ def plot_mixtures(n_compoments=30, dataset=None):
     ax.set_xlim(0.5, 30)
     ax.set_xlabel('Component')
     ax.set_ylabel('Posterior expected mixture weight')
-    return countComponent(DPGMM.weights_, 0.95)
+    return countComponent(DPGMM.weights_, ratio)
 
 
-def countComponent(weightList, ratio = 0.95):
+def countComponent(weightList, ratio):
     """Count the number of components
 
     Args:
