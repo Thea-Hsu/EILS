@@ -8,7 +8,7 @@ import numpy as np
 import warnings
 warnings.filterwarnings("ignore")
 
-def get_likage(dataset, method='single', metric='euclidean'):
+def get_linkage(dataset, method='single', metric='euclidean'):
     """Generate the agglometive linkage matrix.
 
     Args:
@@ -100,7 +100,7 @@ def random_list(length=10):
             random_list.append(random.random())
     return random_list
 
-def choose_best_cut(Z, k, random_list, random_search=True):
+def choose_best_cut(Z, k, low=60, high=95, random_list=random_list(10), random_search=True):
     """Using both random search and grid search for cut-offing.
     If one search method does not find any cut-off value, 
     then it will automaticly change to the other one.
@@ -111,6 +111,8 @@ def choose_best_cut(Z, k, random_list, random_search=True):
     Args:
         Z (ndarray): encoded linkage matrix
         k (int): the number of clusters
+        low (int): lower bound
+        high (int): higher bound
         random_list (list): a random number list belong to [0, 1]
         random_search (bool, optional): using random search or grid search. Defaults to True.
 
@@ -136,7 +138,8 @@ def choose_best_cut(Z, k, random_list, random_search=True):
         for j in range(k):
             count += values[j]
         per = count/len(label) * 100
-        if per < 91 and per > 71:
+        print(per)
+        if per < high and per > low:
             if per > best_score:
                 best_score = per
                 print(best_score)
@@ -158,7 +161,8 @@ def choose_best_cut(Z, k, random_list, random_search=True):
             for j in range(k):
                 count += values[j]
             per = count/len(label) * 100
-            if per < 91 and per > 71:
+            print(per)
+            if per < high and per > low:
                 if per > best_score:
                     best_score = per
                     print(best_score)

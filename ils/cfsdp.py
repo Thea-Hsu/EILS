@@ -222,8 +222,8 @@ def applyILS(X, index):
     newL, orderedL = ILS(df1[features + ['label']],'label')
     tf = time.time()
     print(
-        'Iterative label spreading took {:.1f}s'.format( 
-        tf-ti))
+        'Iterative label spreading took {:.1f}s to label {} points'.format( 
+        tf-ti, len(X) ))
     return newL, count
 
 def draw_ILS(count, X_embedded, newL, colors):
