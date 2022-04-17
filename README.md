@@ -61,4 +61,4 @@ For details, please see the demo.ipynb
 - [Dr. Amanda Parker](https://github.com/ajp1717): supervisor, designed the original version of Iterative Label Spreading.
 
 ### Other Contributors
-- Jon Ting: for testing the usage of ILS and EILS.
+- [Jon Ting](https://github.com/Jon-Ting): for testing the usage of ILS and EILS.
