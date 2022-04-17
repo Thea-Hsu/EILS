@@ -11,7 +11,7 @@ This is the package version for ANU Honours project -- Fast Parameter-free Clust
 
 - Original version: in [ils/basic_ils.py](https://github.com/Thea-Hsu/EILS/blob/main/ils/basic_ils.py)
   - Note: Improvements have been made to the outdated pandas.append() method.
-- Enhance version: this repository
+- Enhanced version: this repository
 - Scikit-Learn version: https://github.com/ajp1717/Summer-Project-Advanced-and-Interpretable-Unsupervised-Learning
 
 
