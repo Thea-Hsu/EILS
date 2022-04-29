@@ -1,6 +1,7 @@
 # EILS
 
 This is the package version for ANU Honours project -- Fast Parameter-free Clustering using Enhanced Iterative Label Spreading.
+
 [![DOI](https://zenodo.org/badge/462578309.svg)](https://zenodo.org/badge/latestdoi/462578309)
 
 
@@ -10,7 +11,7 @@ This is the package version for ANU Honours project -- Fast Parameter-free Clust
 
 - Original version: in [ils/basic_ils.py](https://github.com/Thea-Hsu/EILS/blob/main/ils/basic_ils.py)
   - Note: Improvements have been made to the outdated pandas.append() method.
-- Enhance version: this repository
+- Enhanced version: this repository
 - Scikit-Learn version: https://github.com/ajp1717/Summer-Project-Advanced-and-Interpretable-Unsupervised-Learning
 
 
@@ -56,8 +57,8 @@ For details, please see the demo.ipynb
 
 ### Authors
 
-- [Xinyue (Thea) Xu](https://github.com/Thea-Hsu)
+- [Xinyue (Thea) Xu](https://github.com/Thea-Hsu) (xinyuexu1999@gmail.com)
 - [Dr. Amanda Parker](https://github.com/ajp1717): supervisor, designed the original version of Iterative Label Spreading.
 
 ### Other Contributors
-- Jon Ting: for testing the usage of ILS and EILS.
+- [Jon Ting](https://github.com/Jon-Ting): for testing the usage of ILS and EILS.
