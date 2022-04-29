@@ -18,8 +18,8 @@ This is the package version for ANU Honours project -- Fast Parameter-free Clust
 ## Install Environment
 
 ```
-conda env create -f environment.yml
-conda activate ILS	
+conda env create --file environment.yml -n EILS
+conda activate EILS	
 ```
 
 OR
