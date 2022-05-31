@@ -31,7 +31,10 @@ def plot_dendrogram(Z, dataset, cutoff_dic):
         dataset (dataframe): dataset
         cutoff_dic (float): cut-off line
     """
-    plt.figure(figsize=(50, 16))
+    plt.figure(figsize=(20, 6),dpi=100)
+    plt.xlabel("Index")
+    plt.ylabel('Height')
+    plt.grid(True)
     d = dendrogram(Z, labels = dataset.index,  truncate_mode='lastp', leaf_rotation=90, leaf_font_size=8)
     plt.axhline(y=cutoff_dic, c='k')
 

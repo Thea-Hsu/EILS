@@ -76,7 +76,7 @@ def discrete_density(distance_matrix, dc):
     '''
     density = np.zeros(shape=len(distance_matrix))
     for index, dis in enumerate(distance_matrix):
-        # the length of the points larger than the cut-off distance
+        # the length of the points less than the cut-off distance
         density[index] = len(dis[dis < dc])
     return density
 
